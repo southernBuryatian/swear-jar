@@ -1,0 +1,143 @@
+.painful-bricks {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 24px;
+  width: 100%;
+  padding: 48px 0;
+  border: 0;
+  background: transparent;
+  cursor: pointer;
+  color: inherit;
+}
+
+.painful-bricks-stage {
+  position: relative;
+  display: grid;
+  place-items: center;
+  width: 220px;
+  height: 220px;
+}
+
+.painful-bricks-rays {
+  position: absolute;
+  inset: 0;
+  animation: painful-bricks-rays-spin 10s linear infinite;
+}
+
+.painful-bricks-ray {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 14px;
+  height: 96px;
+  margin-left: -7px;
+  transform-origin: center 0;
+  transform: rotate(calc(var(--ray-index) * 30deg)) translateY(-48px);
+  background: linear-gradient(
+    to top,
+    rgb(255 196 72 / 0),
+    rgb(255 196 72 / 0.85) 45%,
+    rgb(255 120 72 / 0.95)
+  );
+  border-radius: 999px;
+  filter: blur(0.5px);
+  animation: painful-bricks-ray-pulse 1.4s ease-in-out infinite;
+  animation-delay: calc(var(--ray-index) * -0.12s);
+}
+
+.painful-bricks-glow {
+  position: absolute;
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  background: radial-gradient(
+    circle,
+    rgb(255 210 96 / 0.55) 0%,
+    rgb(255 120 72 / 0.2) 45%,
+    transparent 70%
+  );
+  animation: painful-bricks-glow-pulse 1.4s ease-in-out infinite;
+}
+
+.painful-bricks-sprite {
+  position: relative;
+  z-index: 1;
+  width: 96px;
+  height: auto;
+  image-rendering: pixelated;
+  image-rendering: crisp-edges;
+  filter: drop-shadow(0 8px 12px rgb(160 40 24 / 0.35));
+  animation: painful-bricks-brick-bob 1.4s ease-in-out infinite;
+}
+
+.painful-bricks-hint {
+  margin: 0;
+  font-size: 0.95rem;
+  color: #6f5e4d;
+  animation: painful-bricks-hint-pulse 1.4s ease-in-out infinite;
+}
+
+.painful-bricks:hover .painful-bricks-sprite {
+  transform: scale(1.06);
+}
+
+.painful-bricks:focus-visible {
+  outline: 3px solid #f7d36a;
+  outline-offset: 6px;
+  border-radius: 8px;
+}
+
+@keyframes painful-bricks-rays-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes painful-bricks-ray-pulse {
+  0%,
+  100% {
+    opacity: 0.45;
+    transform: rotate(calc(var(--ray-index) * 30deg)) translateY(-48px) scaleY(0.92);
+  }
+
+  50% {
+    opacity: 1;
+    transform: rotate(calc(var(--ray-index) * 30deg)) translateY(-52px) scaleY(1.08);
+  }
+}
+
+@keyframes painful-bricks-glow-pulse {
+  0%,
+  100% {
+    transform: scale(0.92);
+    opacity: 0.75;
+  }
+
+  50% {
+    transform: scale(1.08);
+    opacity: 1;
+  }
+}
+
+@keyframes painful-bricks-brick-bob {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+
+  50% {
+    transform: translateY(-6px);
+  }
+}
+
+@keyframes painful-bricks-hint-pulse {
+  0%,
+  100% {
+    opacity: 0.65;
+  }
+
+  50% {
+    opacity: 1;
+  }
+}
