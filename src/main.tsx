@@ -2,7 +2,7 @@ import { StrictMode, useState } from 'react';
 import { createRoot } from 'react-dom/client';
 import App from './App.tsx';
 import Intro from './Intro/Intro.tsx';
-import PainfulBricks from './PainfulBricks/PainfulBricks.tsx';
+import PainfulBricks from './Inventory/PainfulBricks/PainfulBricks.tsx';
 import './fonts/pixelify-sans.css';
 import './styles.css';
 

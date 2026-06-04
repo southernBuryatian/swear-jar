@@ -1,0 +1,148 @@
+.inventory h1,
+.inventory h2,
+.inventory p {
+  margin: 0;
+}
+
+.inventory h1 {
+  font-size: clamp(2rem, 5vw, 3.5rem);
+  line-height: 1;
+}
+
+.inventory-summary {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+  padding: 24px;
+  border: 1px solid #d8d0c2;
+  border-radius: 8px;
+  background: #fffdf8;
+  box-shadow: 0 18px 45px rgb(24 32 38 / 0.08);
+}
+
+.inventory-heading {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.inventory-brick {
+  display: block;
+  width: 64px;
+  height: auto;
+  image-rendering: pixelated;
+  image-rendering: crisp-edges;
+  filter: drop-shadow(0 4px 6px rgb(160 40 24 / 0.25));
+}
+
+.inventory-eyebrow {
+  margin: 0 0 8px;
+  color: #6f5e4d;
+  font-size: 0.78rem;
+  font-weight: 700;
+  text-transform: uppercase;
+}
+
+.inventory-total {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  min-width: 116px;
+  justify-content: center;
+  padding: 16px 20px;
+  border-radius: 8px;
+  background: #20323a;
+  color: #f7d36a;
+  font-size: 2rem;
+  font-weight: 800;
+}
+
+.inventory-total svg {
+  width: 28px;
+  height: 28px;
+}
+
+.inventory-board {
+  display: grid;
+  gap: 14px;
+  margin: 24px 0;
+}
+
+.inventory-person {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  min-height: 88px;
+  padding: 18px 20px;
+  border: 1px solid #d8d0c2;
+  border-radius: 8px;
+  background: #fffdf8;
+}
+
+.inventory-person h2 {
+  font-size: 1.15rem;
+}
+
+.inventory-person p {
+  margin-top: 4px;
+  color: #68757a;
+}
+
+.inventory-person button,
+.inventory-reset {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  min-height: 42px;
+  padding: 0 16px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 750;
+  transition:
+    transform 140ms ease,
+    background 140ms ease;
+}
+
+.inventory-person button {
+  background: #2f806f;
+  color: white;
+}
+
+.inventory-reset {
+  background: #a64343;
+  color: white;
+}
+
+.inventory-person button:hover,
+.inventory-reset:hover {
+  transform: translateY(-1px);
+}
+
+.inventory-person button:focus-visible,
+.inventory-reset:focus-visible {
+  outline: 3px solid #f7d36a;
+  outline-offset: 3px;
+}
+
+.inventory-reset svg,
+.inventory-person button svg {
+  width: 18px;
+  height: 18px;
+}
+
+@media (max-width: 560px) {
+  .inventory-summary,
+  .inventory-person {
+    align-items: stretch;
+    flex-direction: column;
+  }
+
+  .inventory-total,
+  .inventory-person button,
+  .inventory-reset {
+    width: 100%;
+  }
+}
