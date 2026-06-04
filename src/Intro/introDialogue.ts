@@ -1,6 +1,7 @@
 export const introDialogue = [
-  'Welcome to the Swear Jar.',
-  'Every slip of the tongue costs the team.',
-  'Tap Add when someone owes a coin.',
-  'Keep it friendly — the jar remembers.',
+ 'Me Poe. Goblin.',
+ 'Me like shiny... How is it...',
+ 'Ah! You comprehend English too?',
+ 'Great. My Goblin language is quite limited.',
+ 'Ok, toss this... Gizmo. I\'ll explain later.',
 ];

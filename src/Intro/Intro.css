@@ -6,9 +6,29 @@
   padding: 32px 0;
 }
 
+.intro-scene {
+  display: flex;
+  align-items: flex-end;
+  gap: 8px;
+  width: min(100%, 560px);
+}
+
+.intro-goblin {
+  flex-shrink: 0;
+  margin: 0;}
+
+.intro-goblin img {
+  display: block;
+  width: 128px;
+  height: auto;
+  image-rendering: pixelated;
+  image-rendering: crisp-edges;
+}
+
 .intro-bubble {
   position: relative;
-  width: min(100%, 420px);
+  flex: 1;
+  min-width: 0;
   padding: 20px 24px;
   border: 1px solid #d8d0c2;
   border-radius: 16px;
@@ -26,14 +46,14 @@
 
 .intro-tail {
   position: absolute;
-  bottom: -10px;
-  left: 50%;
+  left: -10px;
+  bottom: 28px;
   width: 18px;
   height: 18px;
-  border-right: 1px solid #d8d0c2;
+  border-left: 1px solid #d8d0c2;
   border-bottom: 1px solid #d8d0c2;
   background: #fffdf8;
-  transform: translateX(-50%) rotate(45deg);
+  transform: rotate(45deg);
 }
 
 .intro-next {
@@ -67,5 +87,35 @@
   to {
     opacity: 1;
     transform: translateY(0);
+  }
+}
+
+@keyframes goblin-idle {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+
+  50% {
+    transform: translateY(-4px);
+  }
+}
+
+@media (max-width: 480px) {
+  .intro-scene {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .intro-goblin img {
+    width: 104px;
+  }
+
+  .intro-tail {
+    left: 50%;
+    bottom: -10px;
+    border-left: 0;
+    border-right: 1px solid #d8d0c2;
+    transform: translateX(-50%) rotate(45deg);
   }
 }

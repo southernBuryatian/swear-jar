@@ -3,7 +3,6 @@ import { createRoot } from 'react-dom/client';
 import App from './App.tsx';
 import Intro from './Intro/Intro.tsx';
 import './styles.css';
-import React from 'react';
 
 function Root() {
   const [introDone, setIntroDone] = useState(false);
@@ -19,7 +18,7 @@ function Root() {
   return <App />;
 }
 
-createRoot(document.getElementById('root')).render(
+createRoot(document.getElementById('root')!).render(
   <StrictMode>
     <Root />
   </StrictMode>,

@@ -1,6 +1,5 @@
 import { Coins, Plus, RotateCcw } from 'lucide-react';
 import { useMemo, useState } from 'react';
-import React from 'react';
 
 const defaultEntries = [
   { id: 1, name: 'Alex', count: 3 },
@@ -15,7 +14,7 @@ export default function App() {
     [entries],
   );
 
-  function addOne(id) {
+  function addOne(id: number) {
     setEntries((current) =>
       current.map((entry) =>
         entry.id === id ? { ...entry, count: entry.count + 1 } : entry,

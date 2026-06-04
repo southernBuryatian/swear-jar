@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import React from 'react';
+import Goblin from './Goblin';
 import { introDialogue } from './introDialogue';
 import './Intro.css';
 
@@ -22,11 +22,14 @@ export default function Intro({ onComplete }: IntroProps) {
 
   return (
     <div className="intro" role="dialog" aria-label="Game intro">
-      <div className="intro-bubble">
-        <p className="intro-line" key={lineIndex}>
-          {line}
-        </p>
-        <span className="intro-tail" aria-hidden="true" />
+      <div className="intro-scene">
+        <Goblin talkKey={lineIndex} />
+        <div className="intro-bubble">
+          <p className="intro-line" key={lineIndex}>
+            {line}
+          </p>
+          <span className="intro-tail" aria-hidden="true" />
+        </div>
       </div>
       <button className="intro-next" type="button" onClick={advance}>
         {isLastLine ? 'Start' : 'Next'}
