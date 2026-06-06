@@ -1,33 +1,27 @@
 import { Coins, Plus, RotateCcw } from 'lucide-react';
-import { useMemo, useState } from 'react';
+import { useMemo } from 'react';
 import brickImg from '../../assets/painfulBricks/pixel_bricks_red.png';
+import { defaultEntries, type JarEntry } from './defaultEntries';
 import { inventoryConfig } from './inventoryConfig';
 import './Inventory.css';
 
-const defaultEntries = [
-  { id: 1, name: 'Alex', count: 3 },
-  { id: 2, name: 'Jordan', count: 1 },
-  { id: 3, name: 'Sam', count: 2 },
-];
+type InventoryProps = {
+  entries: JarEntry[];
+  jarSlips: number;
+  onAddOne: (id: number) => void;
+  onReset: () => void;
+};
 
-export default function Inventory() {
-  const [entries, setEntries] = useState(defaultEntries);
+export default function Inventory({
+  entries,
+  jarSlips,
+  onAddOne,
+  onReset,
+}: InventoryProps) {
   const total = useMemo(
-    () => entries.reduce((sum, entry) => sum + entry.count, 0),
-    [entries],
+    () => entries.reduce((sum, entry) => sum + entry.count, 0) + jarSlips,
+    [entries, jarSlips],
   );
-
-  function addOne(id: number) {
-    setEntries((current) =>
-      current.map((entry) =>
-        entry.id === id ? { ...entry, count: entry.count + 1 } : entry,
-      ),
-    );
-  }
-
-  function reset() {
-    setEntries(defaultEntries);
-  }
 
   const { bricks } = inventoryConfig;
 
@@ -60,7 +54,7 @@ export default function Inventory() {
               <h2>{entry.name}</h2>
               <p>{entry.count} slips</p>
             </div>
-            <button type="button" onClick={() => addOne(entry.id)}>
+            <button type="button" onClick={() => onAddOne(entry.id)}>
               <Plus aria-hidden="true" />
               <span>Add</span>
             </button>
@@ -68,10 +62,12 @@ export default function Inventory() {
         ))}
       </section>
 
-      <button className="inventory-reset" type="button" onClick={reset}>
+      <button className="inventory-reset" type="button" onClick={onReset}>
         <RotateCcw aria-hidden="true" />
         <span>Reset</span>
       </button>
     </div>
   );
 }
+
+export { defaultEntries };

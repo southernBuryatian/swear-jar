@@ -10,3 +10,9 @@ export const hostWalkSprite = {
   sheetHeight: 32,
   displayScale: 2.5,
 } as const;
+
+export const hostWalkDisplay = {
+  width: hostWalkSprite.frameWidth * hostWalkSprite.displayScale,
+  height: hostWalkSprite.frameHeight * hostWalkSprite.displayScale,
+  sheetWidth: hostWalkSprite.sheetWidth * hostWalkSprite.displayScale,
+} as const;
