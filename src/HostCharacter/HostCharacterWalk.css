@@ -1,13 +1,19 @@
 .host-walk-track {
+  display: block;
+  appearance: none;
+  -webkit-appearance: none;
   position: fixed;
   bottom: 0;
   left: 0;
   z-index: 5;
+  width: var(--host-display-width);
   padding: 0;
+  margin: 0;
   border: 0;
   background: transparent;
   cursor: pointer;
   overflow: visible;
+  line-height: 0;
   animation: host-walk-across 36s linear infinite;
 }
 
@@ -22,14 +28,20 @@
   outline-offset: 4px;
 }
 
+.host-walk-character {
+  position: relative;
+  width: var(--host-display-width);
+  height: var(--host-display-height);
+}
+
 .host-walk-bubble {
   position: absolute;
-  bottom: calc(100% + 12px);
+  bottom: calc(100% - var(--host-bubble-lift) + 6px);
   left: 50%;
   z-index: 1;
   width: max-content;
   max-width: min(280px, 90vw);
-  padding: 14px 18px;
+  padding: 12px 16px;
   border: 1px solid #d8d0c2;
   border-radius: 16px;
   background: #fffdf8;
@@ -37,6 +49,7 @@
   transform: translateX(-50%);
   animation: host-bubble-in 220ms ease;
   pointer-events: none;
+  line-height: 1.45;
 }
 
 .host-walk-bubble-line {
@@ -60,9 +73,8 @@
 }
 
 .host-walk-flip {
-  position: absolute;
-  bottom: 0;
-  left: 0;
+  width: 100%;
+  height: 100%;
   transform-origin: bottom center;
   animation: host-walk-mirror 36s linear infinite;
   pointer-events: none;
@@ -70,8 +82,11 @@
 
 .host-walk-sprite {
   display: block;
+  width: var(--host-display-width);
+  height: var(--host-display-height);
   overflow: hidden;
   background-repeat: no-repeat;
+  background-size: var(--host-sheet-width) var(--host-display-height);
   image-rendering: pixelated;
   image-rendering: crisp-edges;
   animation: host-walk-frames 0.6s steps(6, end) infinite;

@@ -81,13 +81,19 @@
   background: #fffdf8;
 }
 
-.inventory-person h2 {
+.inventory-item-label {
   font-size: 1.15rem;
+  font-weight: 700;
 }
 
 .inventory-person p {
   margin-top: 4px;
   color: #68757a;
+}
+
+.inventory-person p.inventory-item-label {
+  margin-top: 0;
+  color: #182026;
 }
 
 .inventory-person button,

@@ -8,11 +8,18 @@ export const hostWalkSprite = {
   frameHeight: 32,
   sheetWidth: 192,
   sheetHeight: 32,
-  displayScale: 2.5,
+  displayScale: 7,
+  /** Empty pixels above the crouching figure in each frame (0–1) */
+  bubbleLiftRatio: 0.3,
 } as const;
 
 export const hostWalkDisplay = {
   width: hostWalkSprite.frameWidth * hostWalkSprite.displayScale,
   height: hostWalkSprite.frameHeight * hostWalkSprite.displayScale,
   sheetWidth: hostWalkSprite.sheetWidth * hostWalkSprite.displayScale,
+  bubbleLift: Math.round(
+    hostWalkSprite.frameHeight *
+      hostWalkSprite.displayScale *
+      hostWalkSprite.bubbleLiftRatio,
+  ),
 } as const;
