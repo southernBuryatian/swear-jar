@@ -5,12 +5,15 @@ import brickIcon from '../../assets/inventory/painfulBricks/pixel_bricks_red.png
 import dirtySockIcon from '../../assets/inventory/dirtySocks/slime sock alt 4.png';
 import mosquitoIcon from '../../assets/inventory/mosquitos/Fly-Sheet.png';
 import {
+  DANCE_CLASSES_INCOME_MULTIPLIER,
+  DANCE_CLASSES_WISHLIST_ID,
   EMAIL_INCOME_MULTIPLIER,
   GIRLFRIEND_INCOME_MULTIPLIER,
   GIRLFRIEND_WISHLIST_ID,
   PROMOTION_WISHLIST_ID,
 } from '../Wishlist/wishlistConfig';
 
+export const BRICK_ITEM_ID = 1;
 export const AC_LEAK_ITEM_ID = 3;
 export const EMAIL_ITEM_ID = 4;
 export const EXISTENTIAL_DREAD_ITEM_ID = 6;
@@ -109,6 +112,13 @@ export function getItemCoinsPerSecond(
   }
 
   if (
+    item.id === BRICK_ITEM_ID &&
+    purchasedWishlistIds.includes(DANCE_CLASSES_WISHLIST_ID)
+  ) {
+    rate *= DANCE_CLASSES_INCOME_MULTIPLIER;
+  }
+
+  if (
     item.id === EMAIL_ITEM_ID &&
     purchasedWishlistIds.includes(PROMOTION_WISHLIST_ID)
   ) {
@@ -116,6 +126,12 @@ export function getItemCoinsPerSecond(
   }
 
   return rate;
+}
+
+export function hasDanceClassesMultiplier(
+  purchasedWishlistIds: readonly number[],
+) {
+  return purchasedWishlistIds.includes(DANCE_CLASSES_WISHLIST_ID);
 }
 
 export function hasGirlfriendMultiplier(purchasedWishlistIds: readonly number[]) {

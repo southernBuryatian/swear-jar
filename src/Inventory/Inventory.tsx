@@ -7,16 +7,19 @@ import { credits } from '../Intro/introDialogue';
 import { formatCompactNumber } from '../formatCompactNumber';
 import {
   AC_LEAK_ITEM_ID,
+  BRICK_ITEM_ID,
   EMAIL_ITEM_ID,
   EXISTENTIAL_DREAD_ITEM_ID,
   createInitialItems,
   getItemCoinsPerSecond,
   getNextItemPrice,
+  hasDanceClassesMultiplier,
   hasEmailPromotion,
   hasGirlfriendMultiplier,
   type InventoryItem,
 } from './inventoryConfig';
 import {
+  DANCE_CLASSES_INCOME_MULTIPLIER,
   EMAIL_INCOME_MULTIPLIER,
   GIRLFRIEND_INCOME_MULTIPLIER,
 } from '../Wishlist/wishlistConfig';
@@ -85,6 +88,9 @@ export default function Inventory({
   const [showCredits, setShowCredits] = useState(false);
   const prevJarSlips = useRef(jarSlips);
 
+  const danceClassesMultiplierActive = hasDanceClassesMultiplier(
+    purchasedWishlistIds,
+  );
   const girlfriendMultiplierActive = hasGirlfriendMultiplier(
     purchasedWishlistIds,
   );
@@ -121,10 +127,13 @@ export default function Inventory({
   useEffect(() => {
     const delta = jarSlips - prevJarSlips.current;
     if (delta > 0) {
-      onAddCoins(delta);
+      const coinGain = danceClassesMultiplierActive
+        ? delta * DANCE_CLASSES_INCOME_MULTIPLIER
+        : delta;
+      onAddCoins(coinGain);
     }
     prevJarSlips.current = jarSlips;
-  }, [jarSlips, onAddCoins]);
+  }, [jarSlips, danceClassesMultiplierActive, onAddCoins]);
 
   useEffect(() => {
     onCoinsPerSecondChange(coinsPerSecond);
@@ -232,6 +241,12 @@ export default function Inventory({
                     +{formatCompactNumber(item.count * itemRate)}/s total
                   </span>
                 </p>
+                {danceClassesMultiplierActive &&
+                  item.id === BRICK_ITEM_ID && (
+                    <p className="inventory-item-bonus">
+                      x{DANCE_CLASSES_INCOME_MULTIPLIER} dance classes bonus
+                    </p>
+                  )}
                 {girlfriendMultiplierActive && (
                   <p className="inventory-item-bonus">
                     x{GIRLFRIEND_INCOME_MULTIPLIER} girlfriend bonus
