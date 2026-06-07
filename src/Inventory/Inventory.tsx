@@ -4,10 +4,18 @@ import goblinIcon from '../../assets/goblin/sprite_0.png';
 import { formatCompactNumber } from '../formatCompactNumber';
 import {
   AC_LEAK_ITEM_ID,
+  EMAIL_ITEM_ID,
   EXISTENTIAL_DREAD_ITEM_ID,
   createInitialItems,
+  getItemCoinsPerSecond,
+  hasEmailPromotion,
+  hasGirlfriendMultiplier,
   type InventoryItem,
 } from './inventoryConfig';
+import {
+  EMAIL_INCOME_MULTIPLIER,
+  GIRLFRIEND_INCOME_MULTIPLIER,
+} from '../Wishlist/wishlistConfig';
 import './Inventory.css';
 
 type InventoryProps = {
@@ -19,6 +27,7 @@ type InventoryProps = {
   onCoinsPerSecondChange: (coinsPerSecond: number) => void;
   onLeakCountChange: (leakCount: number) => void;
   onExistentialDreadChange: (hasExistentialDread: boolean) => void;
+  purchasedWishlistIds: number[];
 };
 
 type InventoryState = {
@@ -55,19 +64,28 @@ export default function Inventory({
   onCoinsPerSecondChange,
   onLeakCountChange,
   onExistentialDreadChange,
+  purchasedWishlistIds,
 }: InventoryProps) {
   const [state, dispatch] = useReducer(inventoryReducer, {
     items: createInitialItems(),
   });
   const prevJarSlips = useRef(jarSlips);
 
+  const girlfriendMultiplierActive = hasGirlfriendMultiplier(
+    purchasedWishlistIds,
+  );
+  const emailPromotionActive = hasEmailPromotion(purchasedWishlistIds);
+
   const coinsPerSecond = useMemo(
     () =>
       state.items.reduce(
-        (sum, item) => sum + item.count * item.baseCoinsPerSecond,
+        (sum, item) =>
+          sum +
+          item.count *
+            getItemCoinsPerSecond(item, purchasedWishlistIds),
         0,
       ),
-    [state.items],
+    [state.items, purchasedWishlistIds],
   );
 
   useEffect(() => {
@@ -145,6 +163,9 @@ export default function Inventory({
       <section className="inventory-board" aria-label="Swear jar items">
         {state.items.map((item) => {
           const canAfford = coins >= item.price;
+          const itemRate = getItemCoinsPerSecond(item, purchasedWishlistIds);
+          const showEmailPromotion =
+            item.id === EMAIL_ITEM_ID && emailPromotionActive;
 
           return (
             <article className="inventory-person" key={item.id}>
@@ -162,14 +183,21 @@ export default function Inventory({
                   <p className="inventory-eyebrow">{item.description}</p>
                 )}
                 <p className="inventory-item-rates">
+                  <span>+{formatCompactNumber(itemRate)}/s each</span>
                   <span>
-                    +{formatCompactNumber(item.baseCoinsPerSecond)}/s each
-                  </span>
-                  <span>
-                    +{formatCompactNumber(item.count * item.baseCoinsPerSecond)}
-                    /s total
+                    +{formatCompactNumber(item.count * itemRate)}/s total
                   </span>
                 </p>
+                {girlfriendMultiplierActive && (
+                  <p className="inventory-item-bonus">
+                    x{GIRLFRIEND_INCOME_MULTIPLIER} girlfriend bonus
+                  </p>
+                )}
+                {showEmailPromotion && (
+                  <p className="inventory-item-bonus">
+                    x{EMAIL_INCOME_MULTIPLIER} promotion bonus
+                  </p>
+                )}
                 <p className="inventory-item-count">
                   We have {formatCompactNumber(item.count)} of them!
                 </p>

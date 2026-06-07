@@ -125,6 +125,7 @@ export default function App() {
             onCoinsPerSecondChange={setCoinsPerSecond}
             onLeakCountChange={setLeakCount}
             onExistentialDreadChange={setHasExistentialDread}
+            purchasedWishlistIds={purchasedWishlistIds}
           />
         </div>
       </div>

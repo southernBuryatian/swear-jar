@@ -157,6 +157,13 @@
   color: #2f806f;
 }
 
+.inventory-item-bonus {
+  margin-top: 4px;
+  color: #2f806f;
+  font-size: 0.82rem;
+  font-weight: 700;
+}
+
 .inventory-item-count {
   font-size: 0.82rem;
 }

@@ -1,10 +1,18 @@
 import leakIcon from '../../assets/inventory/conditionerLeaks/GotinhaSheet32x32.png';
+import emailIcon from '../../assets/inventory/emailsForResponsibleWorkers/email.png';
 import existentialDreadIcon from '../../assets/inventory/existentialDread/existentialDread-scary.png';
 import brickIcon from '../../assets/inventory/painfulBricks/pixel_bricks_red.png';
 import dirtySockIcon from '../../assets/inventory/dirtySocks/slime sock alt 4.png';
 import mosquitoIcon from '../../assets/inventory/mosquitos/Fly-Sheet.png';
+import {
+  EMAIL_INCOME_MULTIPLIER,
+  GIRLFRIEND_INCOME_MULTIPLIER,
+  GIRLFRIEND_WISHLIST_ID,
+  PROMOTION_WISHLIST_ID,
+} from '../Wishlist/wishlistConfig';
 
 export const AC_LEAK_ITEM_ID = 3;
+export const EMAIL_ITEM_ID = 4;
 export const EXISTENTIAL_DREAD_ITEM_ID = 6;
 
 export type InventoryItem = {
@@ -59,7 +67,7 @@ export const inventoryItems: InventoryItem[] = [
     description: "Let's put it this way: I have my own connections.",
     swearText: 'Sam',
     baseCoinsPerSecond: 100,
-    icon: brickIcon,
+    icon: emailIcon,
   },
   {
     id: 5,
@@ -83,6 +91,34 @@ export const inventoryItems: InventoryItem[] = [
     icon: existentialDreadIcon,
   },
 ];
+
+export function getItemCoinsPerSecond(
+  item: InventoryItem,
+  purchasedWishlistIds: readonly number[],
+) {
+  let rate = item.baseCoinsPerSecond;
+
+  if (purchasedWishlistIds.includes(GIRLFRIEND_WISHLIST_ID)) {
+    rate *= GIRLFRIEND_INCOME_MULTIPLIER;
+  }
+
+  if (
+    item.id === EMAIL_ITEM_ID &&
+    purchasedWishlistIds.includes(PROMOTION_WISHLIST_ID)
+  ) {
+    rate *= EMAIL_INCOME_MULTIPLIER;
+  }
+
+  return rate;
+}
+
+export function hasGirlfriendMultiplier(purchasedWishlistIds: readonly number[]) {
+  return purchasedWishlistIds.includes(GIRLFRIEND_WISHLIST_ID);
+}
+
+export function hasEmailPromotion(purchasedWishlistIds: readonly number[]) {
+  return purchasedWishlistIds.includes(PROMOTION_WISHLIST_ID);
+}
 
 export function createInitialItems(): InventoryItem[] {
   return inventoryItems.map(
