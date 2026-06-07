@@ -11,6 +11,7 @@ import {
   EXISTENTIAL_DREAD_ITEM_ID,
   createInitialItems,
   getItemCoinsPerSecond,
+  getNextItemPrice,
   hasEmailPromotion,
   hasGirlfriendMultiplier,
   type InventoryItem,
@@ -49,7 +50,11 @@ function inventoryReducer(
       return {
         items: state.items.map((entry) =>
           entry.id === action.id
-            ? { ...entry, count: entry.count + 1 }
+            ? {
+                ...entry,
+                count: entry.count + 1,
+                price: getNextItemPrice(entry.price),
+              }
             : entry,
         ),
       };

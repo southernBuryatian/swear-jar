@@ -14,6 +14,7 @@ import {
 export const AC_LEAK_ITEM_ID = 3;
 export const EMAIL_ITEM_ID = 4;
 export const EXISTENTIAL_DREAD_ITEM_ID = 6;
+export const PRICE_GROWTH_COEFFICIENT = 1.07;
 
 export type InventoryItem = {
   id: number;
@@ -91,6 +92,11 @@ export const inventoryItems: InventoryItem[] = [
     icon: existentialDreadIcon,
   },
 ];
+
+export function getNextItemPrice(currentPrice: number): number {
+  const grownPrice = Math.round(currentPrice * PRICE_GROWTH_COEFFICIENT);
+  return grownPrice > currentPrice ? grownPrice : currentPrice + 1;
+}
 
 export function getItemCoinsPerSecond(
   item: InventoryItem,
