@@ -12,3 +12,12 @@ export const bricksDialogue = [
   'But all that manual labor is... exhausting!',
   'Let him swear on his own, toss this... Gizmo.',
 ];
+
+export const wishlistDialogue = [
+  'Hey, so while looking for more dirty socks...',
+  'I\'ve found this diary! Let\'s have fun!',
+  '...',
+  '...oh, it is a wishlist. Ok, let\'s help him out!',
+  'What! Do not be this surprised. I do not hate the kid after all! Our relationship is... symbiotic!',
+];
+

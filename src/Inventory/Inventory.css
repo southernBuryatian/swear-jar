@@ -83,6 +83,7 @@
 }
 
 .inventory-person {
+  position: relative;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -91,6 +92,21 @@
   border: 1px solid #d8d0c2;
   border-radius: 8px;
   background: #fffdf8;
+}
+
+.inventory-item-placeholder {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 8px;
+  background: #e8e2d8;
+  color: #6f5e4d;
+  font-size: 1.5rem;
+  font-weight: 800;
+  letter-spacing: 0.05em;
 }
 
 .inventory-person-main {

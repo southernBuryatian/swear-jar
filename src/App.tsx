@@ -119,6 +119,7 @@ export default function App() {
           <Inventory
             jarSlips={jarSlips}
             coins={coins}
+            showItems={bricksDialogueDone}
             onAddCoins={addCoins}
             onSpendForInventory={spendForInventory}
             onItemPurchased={handleInventoryPurchase}

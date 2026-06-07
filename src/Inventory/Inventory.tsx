@@ -1,5 +1,5 @@
 import { Coins, Plus } from 'lucide-react';
-import { useEffect, useMemo, useReducer, useRef } from 'react';
+import { useEffect, useMemo, useReducer, useRef, useState } from 'react';
 import goblinIcon from '../../assets/goblin/sprite_0.png';
 import { formatCompactNumber } from '../formatCompactNumber';
 import {
@@ -21,6 +21,7 @@ import './Inventory.css';
 type InventoryProps = {
   jarSlips: number;
   coins: number;
+  showItems: boolean;
   onAddCoins: (amount: number) => void;
   onSpendForInventory: (price: number) => boolean;
   onItemPurchased: (item: InventoryItem) => void;
@@ -58,6 +59,7 @@ function inventoryReducer(
 export default function Inventory({
   jarSlips,
   coins,
+  showItems,
   onAddCoins,
   onSpendForInventory,
   onItemPurchased,
@@ -69,6 +71,9 @@ export default function Inventory({
   const [state, dispatch] = useReducer(inventoryReducer, {
     items: createInitialItems(),
   });
+  const [revealedItemIds, setRevealedItemIds] = useState<Set<number>>(
+    () => new Set(),
+  );
   const prevJarSlips = useRef(jarSlips);
 
   const girlfriendMultiplierActive = hasGirlfriendMultiplier(
@@ -87,6 +92,22 @@ export default function Inventory({
       ),
     [state.items, purchasedWishlistIds],
   );
+
+  useEffect(() => {
+    setRevealedItemIds((current) => {
+      const next = new Set(current);
+      let changed = false;
+
+      for (const item of state.items) {
+        if (!next.has(item.id) && coins >= item.price / 2) {
+          next.add(item.id);
+          changed = true;
+        }
+      }
+
+      return changed ? next : current;
+    });
+  }, [coins, state.items]);
 
   useEffect(() => {
     const delta = jarSlips - prevJarSlips.current;
@@ -160,15 +181,22 @@ export default function Inventory({
         </div>
       </section>
 
+      {showItems && (
       <section className="inventory-board" aria-label="Swear jar items">
         {state.items.map((item) => {
           const canAfford = coins >= item.price;
           const itemRate = getItemCoinsPerSecond(item, purchasedWishlistIds);
           const showEmailPromotion =
             item.id === EMAIL_ITEM_ID && emailPromotionActive;
+          const showPlaceholder = !revealedItemIds.has(item.id);
 
           return (
             <article className="inventory-person" key={item.id}>
+              {showPlaceholder && (
+                <div className="inventory-item-placeholder" aria-hidden="true">
+                  ???
+                </div>
+              )}
               <div className="inventory-person-main">
                 <img
                   className="inventory-item-icon"
@@ -220,6 +248,7 @@ export default function Inventory({
           );
         })}
       </section>
+      )}
     </div>
   );
 }
