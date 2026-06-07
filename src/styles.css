@@ -23,6 +23,39 @@ button {
   font-family: 'Pixelify Sans', sans-serif;
 }
 
+.fullscreen-button {
+  position: fixed;
+  top: 16px;
+  right: 16px;
+  z-index: 30;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  border: 1px solid #d8d0c2;
+  border-radius: 8px;
+  background: #fffdf8;
+  color: #6f5e4d;
+  cursor: pointer;
+  box-shadow: 0 8px 20px rgb(24 32 38 / 0.08);
+}
+
+.fullscreen-button:hover {
+  color: #182026;
+  background: #f4f0e8;
+}
+
+.fullscreen-button:focus-visible {
+  outline: 3px solid #f7d36a;
+  outline-offset: 2px;
+}
+
+.fullscreen-button svg {
+  width: 20px;
+  height: 20px;
+}
+
 .app-layout {
   display: grid;
   grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
