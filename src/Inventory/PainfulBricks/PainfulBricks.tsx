@@ -1,5 +1,5 @@
 import type { CSSProperties } from 'react';
-import brickImg from '../../../assets/painfulBricks/pixel_bricks_red.png';
+import brickImg from '../../../assets/inventory/painfulBricks/pixel_bricks_red.png';
 import './PainfulBricks.css';
 
 const RAY_COUNT = 12;

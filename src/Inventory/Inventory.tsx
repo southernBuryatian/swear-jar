@@ -1,6 +1,6 @@
 import { Coins, Plus } from 'lucide-react';
 import { useEffect, useMemo, useReducer, useRef } from 'react';
-import brickImg from '../../assets/painfulBricks/pixel_bricks_red.png';
+import goblinIcon from '../../assets/goblin/sprite_0.png';
 import { formatCompactNumber } from '../formatCompactNumber';
 import { createInitialItems, type InventoryItem } from './inventoryConfig';
 import './Inventory.css';
@@ -10,6 +10,8 @@ type InventoryProps = {
   coins: number;
   onAddCoins: (amount: number) => void;
   onSpendForInventory: (price: number) => boolean;
+  onItemPurchased: (item: InventoryItem) => void;
+  onCoinsPerSecondChange: (coinsPerSecond: number) => void;
 };
 
 type InventoryState = {
@@ -42,6 +44,8 @@ export default function Inventory({
   coins,
   onAddCoins,
   onSpendForInventory,
+  onItemPurchased,
+  onCoinsPerSecondChange,
 }: InventoryProps) {
   const [state, dispatch] = useReducer(inventoryReducer, {
     items: createInitialItems(),
@@ -66,6 +70,10 @@ export default function Inventory({
   }, [jarSlips, onAddCoins]);
 
   useEffect(() => {
+    onCoinsPerSecondChange(coinsPerSecond);
+  }, [coinsPerSecond, onCoinsPerSecondChange]);
+
+  useEffect(() => {
     if (coinsPerSecond === 0) {
       return;
     }
@@ -84,9 +92,8 @@ export default function Inventory({
     }
 
     dispatch({ type: 'buy', id });
+    onItemPurchased(item);
   }
-
-  const brickItem = state.items.find((item) => item.id === 1);
 
   return (
     <div className="inventory">
@@ -94,10 +101,10 @@ export default function Inventory({
         <div className="inventory-heading">
           <img
             className="inventory-brick"
-            src={brickImg}
-            alt={brickItem?.description ?? 'Brick'}
-            width={38}
-            height={32}
+            src={goblinIcon}
+            alt="Goblin"
+            width={48}
+            height={48}
           />
           <div>
             <h1>Swear Jar</h1>
@@ -120,7 +127,15 @@ export default function Inventory({
 
           return (
             <article className="inventory-person" key={item.id}>
-              <div className="inventory-person-info">
+              <div className="inventory-person-main">
+                <img
+                  className="inventory-item-icon"
+                  src={item.icon}
+                  alt=""
+                  width={32}
+                  height={28}
+                />
+                <div className="inventory-person-info">
                 <p className="inventory-item-label">{item.name}</p>
                 {item.description && (
                   <p className="inventory-eyebrow">{item.description}</p>
@@ -137,6 +152,7 @@ export default function Inventory({
                 <p className="inventory-item-count">
                   We have {formatCompactNumber(item.count)} of them!
                 </p>
+                </div>
               </div>
               <div className="inventory-person-action">
                 <p className="inventory-item-price">

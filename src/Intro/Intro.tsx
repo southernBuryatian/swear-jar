@@ -4,13 +4,19 @@ import { introDialogue } from './introDialogue';
 import './Intro.css';
 
 type IntroProps = {
+  lines?: readonly string[];
   onComplete?: () => void;
+  completeLabel?: string;
 };
 
-export default function Intro({ onComplete }: IntroProps) {
+export default function Intro({
+  lines = introDialogue,
+  onComplete,
+  completeLabel = 'Start',
+}: IntroProps) {
   const [lineIndex, setLineIndex] = useState(0);
-  const isLastLine = lineIndex >= introDialogue.length - 1;
-  const line = introDialogue[lineIndex];
+  const isLastLine = lineIndex >= lines.length - 1;
+  const line = lines[lineIndex];
 
   function advance() {
     if (isLastLine) {
@@ -32,7 +38,7 @@ export default function Intro({ onComplete }: IntroProps) {
         </div>
       </div>
       <button className="intro-next" type="button" onClick={advance}>
-        {isLastLine ? 'Start' : 'Next'}
+        {isLastLine ? completeLabel : 'Next'}
       </button>
     </div>
   );

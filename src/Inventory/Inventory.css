@@ -93,6 +93,24 @@
   background: #fffdf8;
 }
 
+.inventory-person-main {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  min-width: 0;
+  flex: 1;
+}
+
+.inventory-item-icon {
+  display: block;
+  flex-shrink: 0;
+  width: 32px;
+  height: auto;
+  image-rendering: pixelated;
+  image-rendering: crisp-edges;
+  filter: drop-shadow(0 2px 4px rgb(160 40 24 / 0.2));
+}
+
 .inventory-person-info {
   min-width: 0;
 }
@@ -209,6 +227,10 @@
   .inventory-person {
     align-items: stretch;
     flex-direction: column;
+  }
+
+  .inventory-person-main {
+    width: 100%;
   }
 
   .inventory-person-action {

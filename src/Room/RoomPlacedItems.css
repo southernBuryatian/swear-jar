@@ -1,0 +1,19 @@
+.room-placed-items {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  pointer-events: none;
+}
+
+.room-placed-item {
+  position: absolute;
+  left: var(--room-item-x);
+  top: var(--room-item-y);
+  display: block;
+  width: 28px;
+  height: auto;
+  transform: translate(-50%, -50%);
+  image-rendering: pixelated;
+  image-rendering: crisp-edges;
+  filter: drop-shadow(0 2px 4px rgb(24 32 38 / 0.18));
+}

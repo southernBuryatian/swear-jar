@@ -1,6 +1,7 @@
 import type { CSSProperties } from 'react';
-import { useEffect, useRef, useState } from 'react';
-import { hostDialogue } from './hostDialogue';
+import { useCallback, useEffect, useRef, useState } from 'react';
+import { hostDialogue, swearLines } from './hostDialogue';
+import { getRandomSwearDelayMs, pickRandomSwearLine } from './randomSwear';
 import { hostWalkDisplay, hostWalkSprite } from './hostWalkSprite';
 import './HostCharacterWalk.css';
 
@@ -15,33 +16,89 @@ const {
 } = hostWalkDisplay;
 
 type HostCharacterWalkProps = {
+  coinsPerSecond: number;
   onSwear: () => void;
 };
 
-export default function HostCharacterWalk({ onSwear }: HostCharacterWalkProps) {
+export default function HostCharacterWalk({
+  coinsPerSecond,
+  onSwear,
+}: HostCharacterWalkProps) {
   const [paused, setPaused] = useState(false);
+  const [activeLine, setActiveLine] = useState<string | null>(null);
   const resumeTimerRef = useRef<number | null>(null);
+  const randomSwearTimerRef = useRef<number | null>(null);
+  const pausedRef = useRef(false);
+
+  pausedRef.current = paused;
+
+  const clearResumeTimer = useCallback(() => {
+    if (resumeTimerRef.current !== null) {
+      window.clearTimeout(resumeTimerRef.current);
+      resumeTimerRef.current = null;
+    }
+  }, []);
+
+  const showSwear = useCallback(
+    (line: string, awardCoin: boolean) => {
+      if (awardCoin) {
+        onSwear();
+      }
+
+      setActiveLine(line);
+      setPaused(true);
+      clearResumeTimer();
+
+      resumeTimerRef.current = window.setTimeout(() => {
+        setPaused(false);
+        setActiveLine(null);
+        resumeTimerRef.current = null;
+      }, PAUSE_MS);
+    },
+    [clearResumeTimer, onSwear],
+  );
 
   useEffect(() => {
     return () => {
-      if (resumeTimerRef.current !== null) {
-        window.clearTimeout(resumeTimerRef.current);
+      clearResumeTimer();
+      if (randomSwearTimerRef.current !== null) {
+        window.clearTimeout(randomSwearTimerRef.current);
       }
     };
-  }, []);
+  }, [clearResumeTimer]);
 
-  function handleClick() {
-    onSwear();
-    setPaused(true);
-
-    if (resumeTimerRef.current !== null) {
-      window.clearTimeout(resumeTimerRef.current);
+  useEffect(() => {
+    if (randomSwearTimerRef.current !== null) {
+      window.clearTimeout(randomSwearTimerRef.current);
+      randomSwearTimerRef.current = null;
     }
 
-    resumeTimerRef.current = window.setTimeout(() => {
-      setPaused(false);
-      resumeTimerRef.current = null;
-    }, PAUSE_MS);
+    if (coinsPerSecond <= 0) {
+      return;
+    }
+
+    function scheduleRandomSwear() {
+      randomSwearTimerRef.current = window.setTimeout(() => {
+        if (!pausedRef.current) {
+          showSwear(pickRandomSwearLine(swearLines), false);
+        }
+
+        scheduleRandomSwear();
+      }, getRandomSwearDelayMs(coinsPerSecond));
+    }
+
+    scheduleRandomSwear();
+
+    return () => {
+      if (randomSwearTimerRef.current !== null) {
+        window.clearTimeout(randomSwearTimerRef.current);
+        randomSwearTimerRef.current = null;
+      }
+    };
+  }, [coinsPerSecond, showSwear]);
+
+  function handleClick() {
+    showSwear(hostDialogue, true);
   }
 
   const trackStyle = {
@@ -64,9 +121,9 @@ export default function HostCharacterWalk({ onSwear }: HostCharacterWalkProps) {
       aria-label="Host character"
     >
       <div className="host-walk-character">
-        {paused && (
+        {activeLine && (
           <div className="host-walk-bubble" role="status">
-            <p className="host-walk-bubble-line">{hostDialogue}</p>
+            <p className="host-walk-bubble-line">{activeLine}</p>
             <span className="host-walk-bubble-tail" aria-hidden="true" />
           </div>
         )}
