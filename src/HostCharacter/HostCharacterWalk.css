@@ -15,6 +15,11 @@
   overflow: visible;
   line-height: 0;
   animation: host-walk-across 36s linear infinite;
+  animation-delay: var(--host-walk-delay, 0s);
+}
+
+.host-walk-track--girlfriend {
+  z-index: 4;
 }
 
 .host-walk-track--paused,
@@ -77,6 +82,7 @@
   height: 100%;
   transform-origin: bottom center;
   animation: host-walk-mirror 36s linear infinite;
+  animation-delay: var(--host-walk-delay, 0s);
   pointer-events: none;
 }
 

@@ -1,6 +1,11 @@
+import leakIcon from '../../assets/inventory/conditionerLeaks/GotinhaSheet32x32.png';
+import existentialDreadIcon from '../../assets/inventory/existentialDread/existentialDread-scary.png';
 import brickIcon from '../../assets/inventory/painfulBricks/pixel_bricks_red.png';
 import dirtySockIcon from '../../assets/inventory/dirtySocks/slime sock alt 4.png';
 import mosquitoIcon from '../../assets/inventory/mosquitos/Fly-Sheet.png';
+
+export const AC_LEAK_ITEM_ID = 3;
+export const EXISTENTIAL_DREAD_ITEM_ID = 6;
 
 export type InventoryItem = {
   id: number;
@@ -28,7 +33,7 @@ export const inventoryItems: InventoryItem[] = [
     id: 2,
     count: 0,
     name: 'Dirty sock',
-    price: 100,
+    price: 70,
     description:
       'The smell is not that bad, I do not know why he is complaining',
     swearText: 'Sam',
@@ -44,7 +49,7 @@ export const inventoryItems: InventoryItem[] = [
       'They say there was an ancient torture: to listen the water leaks drop by drop.',
     swearText: 'Jordan',
     baseCoinsPerSecond: 20,
-    icon: brickIcon,
+    icon: leakIcon,
   },
   {
     id: 4,
@@ -63,19 +68,19 @@ export const inventoryItems: InventoryItem[] = [
     price: 5000,
     description: 'You can hear it. You cannot find it.',
     swearText: 'WHERE ARE YOU?!',
-    baseCoinsPerSecond: 500,
+    baseCoinsPerSecond: 520,
     icon: mosquitoIcon,
   },
   {
     id: 6,
     count: 0,
     name: 'Existential dread',
-    price: 1000,
+    price: 40000,
     description:
       'It is the feeling of being lost and without purpose. Makes you swear a lot!',
     swearText: 'Sam',
-    baseCoinsPerSecond: 100,
-    icon: brickIcon,
+    baseCoinsPerSecond: 4242,
+    icon: existentialDreadIcon,
   },
 ];
 

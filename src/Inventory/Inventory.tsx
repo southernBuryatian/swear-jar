@@ -2,7 +2,12 @@ import { Coins, Plus } from 'lucide-react';
 import { useEffect, useMemo, useReducer, useRef } from 'react';
 import goblinIcon from '../../assets/goblin/sprite_0.png';
 import { formatCompactNumber } from '../formatCompactNumber';
-import { createInitialItems, type InventoryItem } from './inventoryConfig';
+import {
+  AC_LEAK_ITEM_ID,
+  EXISTENTIAL_DREAD_ITEM_ID,
+  createInitialItems,
+  type InventoryItem,
+} from './inventoryConfig';
 import './Inventory.css';
 
 type InventoryProps = {
@@ -12,6 +17,8 @@ type InventoryProps = {
   onSpendForInventory: (price: number) => boolean;
   onItemPurchased: (item: InventoryItem) => void;
   onCoinsPerSecondChange: (coinsPerSecond: number) => void;
+  onLeakCountChange: (leakCount: number) => void;
+  onExistentialDreadChange: (hasExistentialDread: boolean) => void;
 };
 
 type InventoryState = {
@@ -46,6 +53,8 @@ export default function Inventory({
   onSpendForInventory,
   onItemPurchased,
   onCoinsPerSecondChange,
+  onLeakCountChange,
+  onExistentialDreadChange,
 }: InventoryProps) {
   const [state, dispatch] = useReducer(inventoryReducer, {
     items: createInitialItems(),
@@ -72,6 +81,18 @@ export default function Inventory({
   useEffect(() => {
     onCoinsPerSecondChange(coinsPerSecond);
   }, [coinsPerSecond, onCoinsPerSecondChange]);
+
+  useEffect(() => {
+    const leakItem = state.items.find((item) => item.id === AC_LEAK_ITEM_ID);
+    onLeakCountChange(leakItem?.count ?? 0);
+  }, [state.items, onLeakCountChange]);
+
+  useEffect(() => {
+    const dreadItem = state.items.find(
+      (item) => item.id === EXISTENTIAL_DREAD_ITEM_ID,
+    );
+    onExistentialDreadChange((dreadItem?.count ?? 0) > 0);
+  }, [state.items, onExistentialDreadChange]);
 
   useEffect(() => {
     if (coinsPerSecond === 0) {

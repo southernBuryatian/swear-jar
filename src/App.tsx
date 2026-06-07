@@ -1,4 +1,5 @@
 import { useCallback, useRef, useState } from 'react';
+import GirlfriendCharacterWalk from './HostCharacter/GirlfriendCharacterWalk.tsx';
 import HostCharacterWalk from './HostCharacter/HostCharacterWalk.tsx';
 import Intro from './Intro/Intro.tsx';
 import { bricksDialogue } from './Intro/introDialogue';
@@ -8,9 +9,15 @@ import {
   createPlacedRoomItem,
   type PlacedRoomItem,
 } from './Room/roomPlacement';
+import RoomLeakDrop from './Room/RoomLeakDrop.tsx';
 import RoomPlacedItems from './Room/RoomPlacedItems.tsx';
 import Wishlist from './Wishlist/Wishlist.tsx';
-import type { InventoryItem } from './Inventory/inventoryConfig';
+import { GIRLFRIEND_WISHLIST_ID } from './Wishlist/wishlistConfig';
+import {
+  AC_LEAK_ITEM_ID,
+  EXISTENTIAL_DREAD_ITEM_ID,
+  type InventoryItem,
+} from './Inventory/inventoryConfig';
 
 const BRICKS_TUTORIAL_CLICKS = 5;
 
@@ -26,6 +33,8 @@ export default function App() {
   const purchasedWishlistRef = useRef<number[]>([]);
   const [roomItems, setRoomItems] = useState<PlacedRoomItem[]>([]);
   const [coinsPerSecond, setCoinsPerSecond] = useState(0);
+  const [leakCount, setLeakCount] = useState(0);
+  const [hasExistentialDread, setHasExistentialDread] = useState(false);
 
   const addJarSlip = useCallback(() => {
     setJarSlips((count) => count + 1);
@@ -47,6 +56,13 @@ export default function App() {
   }, []);
 
   const handleInventoryPurchase = useCallback((item: InventoryItem) => {
+    if (
+      item.id === AC_LEAK_ITEM_ID ||
+      item.id === EXISTENTIAL_DREAD_ITEM_ID
+    ) {
+      return;
+    }
+
     setRoomItems((current) => [...current, createPlacedRoomItem(item.icon)]);
   }, []);
 
@@ -66,6 +82,8 @@ export default function App() {
     return true;
   }, []);
 
+  const hasGirlfriend = purchasedWishlistIds.includes(GIRLFRIEND_WISHLIST_ID);
+
   const showBricksTutorial =
     jarSlips >= BRICKS_TUTORIAL_CLICKS && !painfulBricksDone;
   const showBricksDialogue = showBricksTutorial && !bricksDialogueDone;
@@ -75,12 +93,21 @@ export default function App() {
     <>
       <div className="app-layout">
         <div className="app-room-column">
-          <div className="app-room">
+          <div
+            className={`app-room${hasExistentialDread ? ' app-room--existential-dread' : ''}`}
+          >
             <RoomPlacedItems items={roomItems} />
+            <RoomLeakDrop leakCount={leakCount} />
             <HostCharacterWalk
               coinsPerSecond={coinsPerSecond}
               onSwear={addJarSlip}
             />
+            {hasGirlfriend && (
+              <GirlfriendCharacterWalk
+                coinsPerSecond={coinsPerSecond}
+                onSwear={addJarSlip}
+              />
+            )}
           </div>
           <Wishlist
             coins={coins}
@@ -96,6 +123,8 @@ export default function App() {
             onSpendForInventory={spendForInventory}
             onItemPurchased={handleInventoryPurchase}
             onCoinsPerSecondChange={setCoinsPerSecond}
+            onLeakCountChange={setLeakCount}
+            onExistentialDreadChange={setHasExistentialDread}
           />
         </div>
       </div>

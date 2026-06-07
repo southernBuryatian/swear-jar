@@ -12,6 +12,9 @@ https://invalid-user621.itch.io/slime-sock
 Noisy mosquitos:
 https://lil-cthulhu.itch.io/fly-enemy
 
+Annoying droplets:
+https://miqueias-pasur.itch.io/dropletcharacterfreeuse
+
 Poor Pitiful House Owner:
 https://jimmydjourney.itch.io/office-man-character
 

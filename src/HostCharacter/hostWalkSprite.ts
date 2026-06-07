@@ -1,4 +1,4 @@
-import spriteSheet from '../../assets/hostCharacter/Office_Man_Crouch_Walk.png';
+import spriteSheet from '../../assets/hostCharacters/Office_Man_Crouch_Walk.png';
 
 /** Horizontal strip: 192×32 px, 6 even frames @ 32×32 */
 export const hostWalkSprite = {

@@ -64,6 +64,11 @@ button {
   background-size: contain;
 }
 
+.app-room--existential-dread {
+  background-color: #1a1a22;
+  background-image: url('../assets/background/existential-dread-room.jpg');
+}
+
 .app-panel {
   min-height: 100vh;
   padding: 48px 24px;

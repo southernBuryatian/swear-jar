@@ -1,3 +1,5 @@
+export const GIRLFRIEND_WISHLIST_ID = 1;
+
 export type WishlistItem = {
   id: number;
   name: string;
@@ -8,8 +10,8 @@ export type WishlistItem = {
 export const wishlistItems: WishlistItem[] = [
   {
     id: 1,
-    name: 'To have enough money to let my girlfriend move in',
-    price: 100000,
+    name: 'To have enough money to let my girlfriend move in with me',
+    price: 1,
     comment: 'Good. She swears too! (x1.5 multiplier)',
   },
   {
@@ -22,7 +24,7 @@ export const wishlistItems: WishlistItem[] = [
   {
     id: 3,
     name: 'To buy that course to get promoted',
-    price: 500000,
+    price: 10000000,
     comment: 'Congratulations! More responsibility, more swearing. (x5 multiplier for work emails)',
   },
 ];

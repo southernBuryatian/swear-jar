@@ -7,3 +7,9 @@ export const swearLines = [
   'Estúpido!',
   'Треклятая штуковина!',
 ]
+
+export const girlfriendDialogue = [
+  'Блин блинский!',
+  'Llyncu mul!',
+  'Dukhal!',
+]

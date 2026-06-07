@@ -1,0 +1,32 @@
+.room-leak-drops {
+  position: absolute;
+  inset: 0;
+  z-index: 3;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+.room-leak-drop {
+  position: absolute;
+  top: 0;
+  left: var(--leak-drop-x);
+  display: block;
+  width: 20px;
+  height: auto;
+  transform: translateX(-50%);
+  image-rendering: pixelated;
+  image-rendering: crisp-edges;
+  animation: room-leak-fall var(--leak-fall-duration) linear forwards;
+}
+
+@keyframes room-leak-fall {
+  from {
+    top: 2%;
+    transform: translateX(-50%);
+  }
+
+  to {
+    top: 88%;
+    transform: translateX(-50%);
+  }
+}
