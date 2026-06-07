@@ -19,13 +19,13 @@ function Root() {
     );
   }
 
-  if (screen === 'bricks') {
-    return (
-      <main className="app-shell">
-        <PainfulBricks onContinue={() => setScreen('app')} />
-      </main>
-    );
-  }
+  // if (screen === 'bricks') {
+  //   return (
+  //     <main className="app-shell">
+  //       <PainfulBricks onContinue={() => setScreen('app')} />
+  //     </main>
+  //   );
+  // }
 
   return <App />;
 }

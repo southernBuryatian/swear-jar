@@ -7,40 +7,24 @@ import './Inventory.css';
 
 type InventoryProps = {
   jarSlips: number;
+  coins: number;
+  onAddCoins: (amount: number) => void;
+  onSpendForInventory: (price: number) => boolean;
 };
 
 type InventoryState = {
-  coins: number;
   items: InventoryItem[];
 };
 
-type InventoryAction =
-  | { type: 'add_coins'; amount: number }
-  | { type: 'tick' }
-  | { type: 'buy'; id: number };
+type InventoryAction = { type: 'buy'; id: number };
 
 function inventoryReducer(
   state: InventoryState,
   action: InventoryAction,
 ): InventoryState {
   switch (action.type) {
-    case 'add_coins':
-      return { ...state, coins: state.coins + action.amount };
-    case 'tick': {
-      const income = state.items.reduce(
-        (sum, item) => sum + item.count * item.baseCoinsPerSecond,
-        0,
-      );
-      return income > 0 ? { ...state, coins: state.coins + income } : state;
-    }
     case 'buy': {
-      const item = state.items.find((entry) => entry.id === action.id);
-      if (!item || state.coins < item.price) {
-        return state;
-      }
-
       return {
-        coins: state.coins - item.price,
         items: state.items.map((entry) =>
           entry.id === action.id
             ? { ...entry, count: entry.count + 1 }
@@ -53,9 +37,13 @@ function inventoryReducer(
   }
 }
 
-export default function Inventory({ jarSlips }: InventoryProps) {
+export default function Inventory({
+  jarSlips,
+  coins,
+  onAddCoins,
+  onSpendForInventory,
+}: InventoryProps) {
   const [state, dispatch] = useReducer(inventoryReducer, {
-    coins: 0,
     items: createInitialItems(),
   });
   const prevJarSlips = useRef(jarSlips);
@@ -72,10 +60,10 @@ export default function Inventory({ jarSlips }: InventoryProps) {
   useEffect(() => {
     const delta = jarSlips - prevJarSlips.current;
     if (delta > 0) {
-      dispatch({ type: 'add_coins', amount: delta });
+      onAddCoins(delta);
     }
     prevJarSlips.current = jarSlips;
-  }, [jarSlips]);
+  }, [jarSlips, onAddCoins]);
 
   useEffect(() => {
     if (coinsPerSecond === 0) {
@@ -83,13 +71,18 @@ export default function Inventory({ jarSlips }: InventoryProps) {
     }
 
     const intervalId = window.setInterval(() => {
-      dispatch({ type: 'tick' });
+      onAddCoins(coinsPerSecond);
     }, 1000);
 
     return () => window.clearInterval(intervalId);
-  }, [coinsPerSecond]);
+  }, [coinsPerSecond, onAddCoins]);
 
   function buyItem(id: number) {
+    const item = state.items.find((entry) => entry.id === id);
+    if (!item || !onSpendForInventory(item.price)) {
+      return;
+    }
+
     dispatch({ type: 'buy', id });
   }
 
@@ -113,7 +106,7 @@ export default function Inventory({ jarSlips }: InventoryProps) {
         <div className="inventory-total-wrap">
           <div className="inventory-total">
             <Coins aria-hidden="true" />
-            <span>{formatCompactNumber(state.coins)}</span>
+            <span>{formatCompactNumber(coins)}</span>
           </div>
           <p className="inventory-total-rate">
             +{formatCompactNumber(coinsPerSecond)}/s
@@ -123,7 +116,7 @@ export default function Inventory({ jarSlips }: InventoryProps) {
 
       <section className="inventory-board" aria-label="Swear jar items">
         {state.items.map((item) => {
-          const canAfford = state.coins >= item.price;
+          const canAfford = coins >= item.price;
 
           return (
             <article className="inventory-person" key={item.id}>

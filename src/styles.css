@@ -34,10 +34,14 @@ button {
   position: sticky;
   top: 0;
   display: flex;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
+  gap: 16px;
   height: 100vh;
   max-height: 100vh;
+  padding: 16px;
+  overflow-y: auto;
 }
 
 .app-room {
@@ -89,6 +93,7 @@ button {
     height: auto;
     max-height: none;
     padding: 16px 0 0;
+    overflow-y: visible;
   }
 
   .app-room {

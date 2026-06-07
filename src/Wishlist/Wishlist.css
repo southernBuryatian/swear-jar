@@ -1,0 +1,133 @@
+.wishlist {
+  width: 100%;
+  max-width: min(100%, calc(100vh * 254.024 / 179.372));
+  padding: 0 4px;
+}
+
+.wishlist-heading {
+  margin: 0 0 10px;
+  font-size: 1.1rem;
+  line-height: 1.2;
+}
+
+.wishlist-board {
+  display: grid;
+  gap: 8px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.wishlist-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  padding: 10px 12px;
+  border: 1px solid #d8d0c2;
+  border-radius: 8px;
+  background: #fffdf8;
+}
+
+.wishlist-item-info {
+  min-width: 0;
+}
+
+.wishlist-item-name {
+  margin: 0;
+  font-size: 0.88rem;
+  font-weight: 700;
+  line-height: 1.3;
+}
+
+.wishlist-item-comment {
+  margin: 4px 0 0;
+  color: #68757a;
+  font-size: 0.78rem;
+  line-height: 1.35;
+}
+
+.wishlist-item--purchased .wishlist-item-name,
+.wishlist-item--purchased .wishlist-item-comment {
+  text-decoration: line-through;
+  opacity: 0.55;
+}
+
+.wishlist-item-action {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  gap: 6px;
+  flex-shrink: 0;
+}
+
+.wishlist-item-price {
+  margin: 0;
+  font-size: 0.82rem;
+  font-weight: 700;
+  text-align: center;
+  white-space: nowrap;
+}
+
+.wishlist-item-action button {
+  min-height: 32px;
+  padding: 0 10px;
+  border-radius: 8px;
+  background: #2f806f;
+  color: white;
+  font-size: 0.85rem;
+  font-weight: 750;
+  cursor: pointer;
+}
+
+.wishlist-item-action button:hover:not(:disabled) {
+  transform: translateY(-1px);
+}
+
+.wishlist-item-action button:disabled {
+  cursor: not-allowed;
+  opacity: 0.45;
+}
+
+.wishlist-item-action button:focus-visible {
+  outline: 3px solid #f7d36a;
+  outline-offset: 3px;
+}
+
+.wishlist-item-done {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  margin: 0;
+  color: #2f806f;
+  font-size: 0.82rem;
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+.wishlist-item-done svg {
+  width: 16px;
+  height: 16px;
+}
+
+@media (max-width: 768px) {
+  .wishlist {
+    max-width: 100%;
+    padding: 0 16px 16px;
+  }
+
+  .wishlist-item {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .wishlist-item-action {
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .wishlist-item-price {
+    text-align: left;
+  }
+}
