@@ -7,12 +7,14 @@ type IntroProps = {
   lines?: readonly string[];
   onComplete?: () => void;
   completeLabel?: string;
+  showCloseButton?: boolean;
 };
 
 export default function Intro({
   lines = introDialogue,
   onComplete,
   completeLabel = 'Start',
+  showCloseButton = false,
 }: IntroProps) {
   const [lineIndex, setLineIndex] = useState(0);
   const isLastLine = lineIndex >= lines.length - 1;
@@ -28,6 +30,16 @@ export default function Intro({
 
   return (
     <div className="intro" role="dialog" aria-label="Game intro">
+      {showCloseButton && onComplete && (
+        <button
+          type="button"
+          className="intro-close"
+          aria-label="Close"
+          onClick={onComplete}
+        >
+          ×
+        </button>
+      )}
       <div className="intro-scene">
         <Goblin talkKey={lineIndex} />
         <div className="intro-bubble">

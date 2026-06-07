@@ -1,9 +1,39 @@
 .intro {
+  position: relative;
   display: flex;
   flex-direction: column;
   align-items: center;
   gap: 20px;
   padding: 32px 0;
+}
+
+.intro-close {
+  position: absolute;
+  top: 0;
+  right: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  padding: 0;
+  border: 1px solid #d8d0c2;
+  border-radius: 8px;
+  background: #fffdf8;
+  color: #6f5e4d;
+  font-size: 1.5rem;
+  line-height: 1;
+  cursor: pointer;
+}
+
+.intro-close:hover {
+  color: #182026;
+  background: #f4f0e8;
+}
+
+.intro-close:focus-visible {
+  outline: 3px solid #f7d36a;
+  outline-offset: 2px;
 }
 
 .intro-scene {
@@ -41,6 +71,7 @@
   font-size: 1.05rem;
   line-height: 1.5;
   color: #182026;
+  white-space: pre-line;
   animation: intro-line-in 220ms ease;
 }
 

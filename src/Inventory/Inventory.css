@@ -27,6 +27,27 @@
   gap: 12px;
 }
 
+.inventory-credits {
+  margin-top: 6px;
+  padding: 0;
+  border: 0;
+  background: none;
+  color: #6f5e4d;
+  font-size: 0.82rem;
+  font-weight: 700;
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+.inventory-credits:hover {
+  color: #2f806f;
+}
+
+.inventory-credits:focus-visible {
+  outline: 3px solid #f7d36a;
+  outline-offset: 2px;
+}
+
 .inventory-brick {
   display: block;
   width: 48px;

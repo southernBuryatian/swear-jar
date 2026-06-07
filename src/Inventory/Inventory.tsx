@@ -1,6 +1,9 @@
 import { Coins, Plus } from 'lucide-react';
 import { useEffect, useMemo, useReducer, useRef, useState } from 'react';
+import { createPortal } from 'react-dom';
 import goblinIcon from '../../assets/goblin/sprite_0.png';
+import Intro from '../Intro/Intro';
+import { credits } from '../Intro/introDialogue';
 import { formatCompactNumber } from '../formatCompactNumber';
 import {
   AC_LEAK_ITEM_ID,
@@ -74,6 +77,7 @@ export default function Inventory({
   const [revealedItemIds, setRevealedItemIds] = useState<Set<number>>(
     () => new Set(),
   );
+  const [showCredits, setShowCredits] = useState(false);
   const prevJarSlips = useRef(jarSlips);
 
   const girlfriendMultiplierActive = hasGirlfriendMultiplier(
@@ -168,6 +172,13 @@ export default function Inventory({
           />
           <div>
             <h1>Swear Jar</h1>
+            <button
+              type="button"
+              className="inventory-credits"
+              onClick={() => setShowCredits(true)}
+            >
+              Credits
+            </button>
           </div>
         </div>
         <div className="inventory-total-wrap">
@@ -249,6 +260,19 @@ export default function Inventory({
         })}
       </section>
       )}
+      {showCredits &&
+        createPortal(
+          <div className="app-tutorial-overlay app-tutorial-overlay--scrollable">
+            <main className="app-shell">
+              <Intro
+                lines={credits}
+                completeLabel="Close"
+                onComplete={() => setShowCredits(false)}
+              />
+            </main>
+          </div>,
+          document.body,
+        )}
     </div>
   );
 }

@@ -105,6 +105,11 @@ button {
   background: rgb(244 240 232 / 0.94);
 }
 
+.app-tutorial-overlay--scrollable {
+  align-items: flex-start;
+  overflow-y: auto;
+}
+
 @media (max-width: 768px) {
   .app-layout {
     grid-template-columns: 1fr;
