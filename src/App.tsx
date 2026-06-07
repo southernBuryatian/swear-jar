@@ -11,8 +11,10 @@ export default function App() {
 
   return (
     <div className="app-layout">
-      <div className="app-room">
-        <HostCharacterWalk onSwear={addJarSlip} />
+      <div className="app-room-column">
+        <div className="app-room">
+          <HostCharacterWalk onSwear={addJarSlip} />
+        </div>
       </div>
       <div className="app-panel">
         <Inventory jarSlips={jarSlips} />

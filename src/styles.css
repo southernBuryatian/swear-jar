@@ -26,18 +26,38 @@ button {
 .app-layout {
   display: grid;
   grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  align-items: start;
   min-height: 100vh;
 }
 
+.app-room-column {
+  position: sticky;
+  top: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  max-height: 100vh;
+}
+
 .app-room {
+  --room-aspect-width: 254.024;
+  --room-aspect-height: 179.372;
   position: relative;
-  min-height: 100vh;
+  width: 100%;
+  max-width: min(
+    100%,
+    calc(100vh * var(--room-aspect-width) / var(--room-aspect-height))
+  );
+  max-height: 100vh;
+  aspect-ratio: var(--room-aspect-width) / var(--room-aspect-height);
+  margin: 0 auto;
   overflow: hidden;
   background-color: #ddefe1;
   background-image: url('../assets/background/room.svg');
   background-repeat: no-repeat;
   background-position: center center;
-  background-size: cover;
+  background-size: contain;
 }
 
 .app-panel {
@@ -61,15 +81,23 @@ button {
 @media (max-width: 768px) {
   .app-layout {
     grid-template-columns: 1fr;
-    grid-template-rows: minmax(240px, 45vh) 1fr;
+    grid-template-rows: auto 1fr;
   }
 
-  .app-room,
+  .app-room-column {
+    position: static;
+    height: auto;
+    max-height: none;
+    padding: 16px 0 0;
+  }
+
+  .app-room {
+    max-width: 100%;
+    max-height: min(45vh, calc(100vw * var(--room-aspect-height) / var(--room-aspect-width)));
+  }
+
   .app-panel {
     min-height: 0;
-  }
-
-  .app-panel {
     padding: 24px 16px;
   }
 }

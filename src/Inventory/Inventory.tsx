@@ -1,6 +1,7 @@
 import { Coins, Plus } from 'lucide-react';
 import { useEffect, useMemo, useReducer, useRef } from 'react';
 import brickImg from '../../assets/painfulBricks/pixel_bricks_red.png';
+import { formatCompactNumber } from '../formatCompactNumber';
 import { createInitialItems, type InventoryItem } from './inventoryConfig';
 import './Inventory.css';
 
@@ -112,9 +113,11 @@ export default function Inventory({ jarSlips }: InventoryProps) {
         <div className="inventory-total-wrap">
           <div className="inventory-total">
             <Coins aria-hidden="true" />
-            <span>{state.coins}</span>
+            <span>{formatCompactNumber(state.coins)}</span>
           </div>
-          <p className="inventory-total-rate">+{coinsPerSecond}/s</p>
+          <p className="inventory-total-rate">
+            +{formatCompactNumber(coinsPerSecond)}/s
+          </p>
         </div>
       </section>
 
@@ -124,29 +127,37 @@ export default function Inventory({ jarSlips }: InventoryProps) {
 
           return (
             <article className="inventory-person" key={item.id}>
-              <div>
-                <div>
-                  <p className="inventory-item-label">{item.name}</p>
-                  {item.description && (
-                    <p className="inventory-eyebrow">{item.description}</p>
-                  )}
-                  <p className="inventory-item-price">{item.price} coins</p>
-                  {item.count > 0 && (
-                    <p className="inventory-item-income">
-                      +{item.count * item.baseCoinsPerSecond}/s
-                    </p>
-                  )}
-                </div>
-                <p>We have {item.count} of them!</p>
+              <div className="inventory-person-info">
+                <p className="inventory-item-label">{item.name}</p>
+                {item.description && (
+                  <p className="inventory-eyebrow">{item.description}</p>
+                )}
+                <p className="inventory-item-rates">
+                  <span>
+                    +{formatCompactNumber(item.baseCoinsPerSecond)}/s each
+                  </span>
+                  <span>
+                    +{formatCompactNumber(item.count * item.baseCoinsPerSecond)}
+                    /s total
+                  </span>
+                </p>
+                <p className="inventory-item-count">
+                  We have {formatCompactNumber(item.count)} of them!
+                </p>
               </div>
-              <button
-                type="button"
-                onClick={() => buyItem(item.id)}
-                disabled={!canAfford}
-              >
-                <Plus aria-hidden="true" />
-                <span>Buy</span>
-              </button>
+              <div className="inventory-person-action">
+                <p className="inventory-item-price">
+                  {formatCompactNumber(item.price)} coins
+                </p>
+                <button
+                  type="button"
+                  onClick={() => buyItem(item.id)}
+                  disabled={!canAfford}
+                >
+                  <Plus aria-hidden="true" />
+                  <span>Buy</span>
+                </button>
+              </div>
             </article>
           );
         })}
