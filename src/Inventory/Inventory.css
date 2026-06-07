@@ -44,6 +44,13 @@
   text-transform: uppercase;
 }
 
+.inventory-total-wrap {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+}
+
 .inventory-total {
   display: inline-flex;
   align-items: center;
@@ -56,6 +63,13 @@
   color: #f7d36a;
   font-size: 2rem;
   font-weight: 800;
+}
+
+.inventory-total-rate {
+  margin: 0;
+  color: #2f806f;
+  font-size: 0.95rem;
+  font-weight: 700;
 }
 
 .inventory-total svg {
@@ -122,9 +136,21 @@
   color: white;
 }
 
-.inventory-person button:hover,
+.inventory-item-income {
+  margin-top: 4px;
+  color: #2f806f;
+  font-size: 0.9rem;
+  font-weight: 700;
+}
+
+.inventory-person button:hover:not(:disabled),
 .inventory-reset:hover {
   transform: translateY(-1px);
+}
+
+.inventory-person button:disabled {
+  cursor: not-allowed;
+  opacity: 0.45;
 }
 
 .inventory-person button:focus-visible,
@@ -146,6 +172,7 @@
     flex-direction: column;
   }
 
+  .inventory-total-wrap,
   .inventory-total,
   .inventory-person button,
   .inventory-reset {

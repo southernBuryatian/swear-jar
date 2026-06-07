@@ -2,7 +2,7 @@
   display: block;
   appearance: none;
   -webkit-appearance: none;
-  position: fixed;
+  position: absolute;
   bottom: 0;
   left: 0;
   z-index: 5;
@@ -105,15 +105,15 @@
 
 @keyframes host-walk-across {
   0% {
-    transform: translateX(calc(-1 * var(--host-display-width)));
+    left: calc(-1 * var(--host-display-width));
   }
 
   50% {
-    transform: translateX(calc(100vw - var(--host-display-width)));
+    left: calc(100% - var(--host-display-width));
   }
 
   100% {
-    transform: translateX(calc(-1 * var(--host-display-width)));
+    left: calc(-1 * var(--host-display-width));
   }
 }
 

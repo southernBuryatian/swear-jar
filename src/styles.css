@@ -23,8 +23,16 @@ button {
   font-family: 'Pixelify Sans', sans-serif;
 }
 
-.app-room {
+.app-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
   min-height: 100vh;
+}
+
+.app-room {
+  position: relative;
+  min-height: 100vh;
+  overflow: hidden;
   background-color: #ddefe1;
   background-image: url('../assets/background/room.svg');
   background-repeat: no-repeat;
@@ -32,10 +40,38 @@ button {
   background-size: cover;
 }
 
+.app-panel {
+  min-height: 100vh;
+  padding: 48px 24px;
+  overflow-y: auto;
+  background: #f4f0e8;
+}
+
+.app-panel .inventory {
+  width: min(100%, 560px);
+  margin: 0 auto;
+}
+
 .app-shell {
   width: min(100% - 32px, 760px);
   margin: 0 auto;
   padding: 48px 0;
+}
+
+@media (max-width: 768px) {
+  .app-layout {
+    grid-template-columns: 1fr;
+    grid-template-rows: minmax(240px, 45vh) 1fr;
+  }
+
+  .app-room,
+  .app-panel {
+    min-height: 0;
+  }
+
+  .app-panel {
+    padding: 24px 16px;
+  }
 }
 
 @media (max-width: 560px) {

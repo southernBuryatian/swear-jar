@@ -9,14 +9,14 @@ export default function App() {
     setJarSlips((count) => count + 1);
   }, []);
 
-  const resetJarSlips = useCallback(() => {
-    setJarSlips(0);
-  }, []);
-
   return (
-    <div className="app-room">
-      <HostCharacterWalk onSwear={addJarSlip} />
-      <Inventory jarSlips={jarSlips} onJarSlipsReset={resetJarSlips} />
+    <div className="app-layout">
+      <div className="app-room">
+        <HostCharacterWalk onSwear={addJarSlip} />
+      </div>
+      <div className="app-panel">
+        <Inventory jarSlips={jarSlips} />
+      </div>
     </div>
   );
 }
