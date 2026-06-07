@@ -2,7 +2,7 @@ import { useCallback, useRef, useState } from 'react';
 import GirlfriendCharacterWalk from './HostCharacter/GirlfriendCharacterWalk.tsx';
 import HostCharacterWalk from './HostCharacter/HostCharacterWalk.tsx';
 import Intro from './Intro/Intro.tsx';
-import { bricksDialogue } from './Intro/introDialogue';
+import { bricksDialogue, wishlistDialogue } from './Intro/introDialogue';
 import PainfulBricks from './Inventory/PainfulBricks/PainfulBricks.tsx';
 import Inventory from './Inventory/Inventory.tsx';
 import {
@@ -20,11 +20,13 @@ import {
 } from './Inventory/inventoryConfig';
 
 const BRICKS_TUTORIAL_CLICKS = 5;
+const WISHLIST_UNLOCK_COINS_PER_SECOND = 65;
 
 export default function App() {
   const [jarSlips, setJarSlips] = useState(0);
   const [bricksDialogueDone, setBricksDialogueDone] = useState(false);
   const [painfulBricksDone, setPainfulBricksDone] = useState(false);
+  const [wishlistDialogueDone, setWishlistDialogueDone] = useState(false);
   const [coins, setCoins] = useState(0);
   const [purchasedWishlistIds, setPurchasedWishlistIds] = useState<number[]>(
     [],
@@ -88,6 +90,8 @@ export default function App() {
     jarSlips >= BRICKS_TUTORIAL_CLICKS && !painfulBricksDone;
   const showBricksDialogue = showBricksTutorial && !bricksDialogueDone;
   const showPainfulBricks = showBricksTutorial && bricksDialogueDone;
+  const showWishlistDialogue =
+    coinsPerSecond >= WISHLIST_UNLOCK_COINS_PER_SECOND && !wishlistDialogueDone;
 
   return (
     <>
@@ -109,13 +113,17 @@ export default function App() {
               />
             )}
           </div>
-          <Wishlist
-            coins={coins}
-            purchasedIds={purchasedWishlistIds}
-            onPurchase={purchaseWishlistItem}
-          />
+          {wishlistDialogueDone && (
+            <Wishlist
+              coins={coins}
+              purchasedIds={purchasedWishlistIds}
+              onPurchase={purchaseWishlistItem}
+            />
+          )}
         </div>
-        <div className="app-panel">
+        <div
+          className={`app-panel${!bricksDialogueDone ? ' app-panel--summary-centered' : ''}`}
+        >
           <Inventory
             jarSlips={jarSlips}
             coins={coins}
@@ -145,6 +153,17 @@ export default function App() {
         <div className="app-tutorial-overlay">
           <main className="app-shell">
             <PainfulBricks onContinue={() => setPainfulBricksDone(true)} />
+          </main>
+        </div>
+      )}
+      {showWishlistDialogue && (
+        <div className="app-tutorial-overlay">
+          <main className="app-shell">
+            <Intro
+              lines={wishlistDialogue}
+              completeLabel="Got it"
+              onComplete={() => setWishlistDialogueDone(true)}
+            />
           </main>
         </div>
       )}

@@ -76,6 +76,13 @@ button {
   background: #f4f0e8;
 }
 
+.app-panel--summary-centered {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
 .app-panel .inventory {
   width: min(100%, 560px);
   margin: 0 auto;
